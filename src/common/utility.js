@@ -158,6 +158,14 @@ const formatAddress = (addressObj) => {
   return address;
 };
 
+const formatTitleCase = (str) => {
+  if (!str || typeof str !== 'string') {
+    return str;
+  }
+  const lc = str.toLowerCase();
+  return lc.charAt(0).toUpperCase() + lc.slice(1);
+}
+
 export {
   customDateFieldFormat,
   systemDateFieldFormat,
@@ -169,4 +177,5 @@ export {
   htmlAttributesToJson,
   buildUrlPath,
   formatAddress,
+  formatTitleCase
 };

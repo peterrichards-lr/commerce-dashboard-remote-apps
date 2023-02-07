@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import recentShipmentsApi from './RecentShipmentsApi';
 import DashboardTable from '../../common/components/DashboardTable';
 import StatusLabel from '../../common/components/StatusLabel';
+import { formatTitleCase } from '../../common/utility';
 
 const RecentShipments = (props) => {
   const { config } = props;
@@ -28,7 +29,7 @@ const RecentShipments = (props) => {
           <td>{shipment.sentTo}</td>
           <td>
             <StatusLabel type={shipment.status === 'delivered' ? 'success' : 'pending'}>
-              {shipment.status.toUpperCase()}
+              {formatTitleCase(shipment.status)}
             </StatusLabel>
           </td>
           <td>{shipment.trackingNumber}</td>
