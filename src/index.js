@@ -99,7 +99,7 @@ class RecentShipmentWebComponent extends HTMLElement {
 
   render() {
     const config = this.querySelector('config');
-    this.root.render(<RecentShipments config={config} />);
+    this.root.render(<RecentShipments configElement={config} />);
   }
 
   connectedCallback() {

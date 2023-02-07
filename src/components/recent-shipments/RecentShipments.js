@@ -6,12 +6,20 @@ import StatusLabel from '../../common/components/StatusLabel';
 import { formatTitleCase } from '../../common/utility';
 
 const RecentShipments = (props) => {
-  const { config } = props;
+  const { configElement } = props;
   const [shipments, setShipments] = useState([]);
+  const [config, setConfig] = useState();
+
+  useEffect(() => {
+      setConfig(configurationHelper(configElement));
+  }, [configElement])
 
   useEffect(() => {
     (async () => {
-      const { accountid, channelid, maxentries } = configurationHelper(config);
+      if (!config) {
+        return;
+      }
+      const { accountid, channelid, maxentries } = config;
       await recentShipmentsApi(channelid, accountid, maxentries)
         .then((shipments) => {
           setShipments(shipments);
