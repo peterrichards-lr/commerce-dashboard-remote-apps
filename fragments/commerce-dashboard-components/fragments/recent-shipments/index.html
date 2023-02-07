@@ -1,0 +1,12 @@
+[#if request?? && request.getAttribute??]
+  [#assign commerceContext = request.getAttribute("COMMERCE_CONTEXT")! /]
+  [#assign commerceAccount = commerceContext.getCommerceAccount()! /]
+[/#if]
+<div class="commerce-shipments-web-901">
+	<config accountid="${commerceAccount.getCommerceAccountId()! -1}" channelid="${commerceContext.getCommerceChannelId()! -1}" maxentries="5"></config>
+	<recent-shipments>
+	<div class="loading-icon">
+		
+		</div>
+	</recent-shipments>
+</div>

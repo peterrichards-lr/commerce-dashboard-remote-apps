@@ -1,0 +1,50 @@
+.commerce-orders-web-901 {
+	font-family: 'Open Sans';
+	font-style: normal;
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 19px;
+	background-color: white;
+	border-radius: 0 0 8px 8px;
+	overflow: hidden;
+}
+
+.commerce-orders-web-901 .header-wapper {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 1rem;
+	border-bottom: solid var(--spacer-1) var(--body-bg);
+}
+
+.commerce-orders-web-901 .header {
+	font-size: 16px;
+	line-height: 33px;
+	color: #28282B;
+	margin-bottom: unset;
+}
+
+.commerce-orders-web-901 .link {
+	font-size: .75rem;
+	line-height: 1.125rem;
+	color: #71D2E8;
+	margin-bottom: unset;
+}
+
+.commerce-orders-web-901 th {
+	font-size: 14px;
+	line-height: 21px;
+	color: #646F80;
+	vertical-align: middle;
+}
+
+.commerce-orders-web-901 td {
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 21px;
+	color: #28282B;
+}
+
+.commerce-orders-web-901 .footer {
+	text-align: center;
+}

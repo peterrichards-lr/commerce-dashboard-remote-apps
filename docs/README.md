@@ -1,70 +1,33 @@
-# Getting Started with Create React App
+# Commerce Dashboard Components
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Getting Started
+The original getting started guide can be found [here](./getting-started.md)
 
-## Available Scripts
+## Overview
 
-In the project directory, you can run:
+The following components all do things slightly differently to showcase the different approaches which could be taken.
 
-### `yarn start`
+## Fragments
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+In order to render these components you need the fragment collection. The latest version can be found [here](https://github.com/peterrichards-lr/commerce-dashboard-remote-apps/releases/latest/)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Recent Invoices
 
-### `yarn test`
+Uses Liferay Object to source the data
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+![Invoices (raw)](./images/recent-invoices.png)
+![Invoices (rendered)](./images/recent-invoices-rendered.png)
 
-### `yarn build`
+### Recewnt Orders
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Uses fragment to pass the commerce context so the Commerce headless delivery API can be used to source the data. The commerce context is passed as parameters to the custom element.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+![Orders (raw)](./images/recent-orders.png)
+![Orders (rendered)](./images/recent-orders-rendered.png)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Recent Shipments
 
-### `yarn eject`
+Uses fragment to pass the commerce context so the Commerce headless delivery API can be used to source the data. The commerce context is passed as sibling config element.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+![Shipments (raw)](./images/recent-shipments.png)
+![Shipments (rendered)](./images/recent-shipments-rendered.png)
