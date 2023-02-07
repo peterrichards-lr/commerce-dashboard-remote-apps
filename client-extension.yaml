@@ -14,3 +14,27 @@ recent-shipments:
     urls:
         - static/js/main.*.js
     useESM: false
+recent-orders:
+    cssURLs:
+        - static/css/main.*.css
+    friendlyURLMapping: recent-orders
+    htmlElementName: recent-orders
+    instanceable: false
+    name: UrUecent UUorders
+    portletCategoryName: category.client-extensions
+    type: customElement
+    urls:
+        - static/js/main.*.js
+    useESM: false
+recent-invoices:
+    cssURLs:
+        - static/css/main.*.css
+    friendlyURLMapping: recent-invoices
+    htmlElementName: recent-invoices
+    instanceable: false
+    name: UrUecent UUinvoices
+    portletCategoryName: category.client-extensions
+    type: customElement
+    urls:
+        - static/js/main.*.js
+    useESM: false
