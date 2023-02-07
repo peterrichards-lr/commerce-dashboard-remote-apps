@@ -42,7 +42,7 @@ const RecentShipments = (props) => {
             {loaded ? (
               <div className="alert alert-info">No shipments found</div>
             ) : (
-              <div className="loading-icon"></div>
+              <div className="loading-animation loading-animation-md"></div>
             )}
           </td>
         </tr>

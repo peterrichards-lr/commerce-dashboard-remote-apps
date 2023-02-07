@@ -60,7 +60,7 @@ const RecentInvoices = (props) => {
             {loaded ? (
               <div className="alert alert-info">No invoices found</div>
             ) : (
-              <div className="loading-icon"></div>
+              <div className="loading-animation loading-animation-md"></div>
             )}
           </td>
         </tr>

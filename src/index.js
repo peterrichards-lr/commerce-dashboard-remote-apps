@@ -5,8 +5,6 @@ import RecentInvoices from './components/recent-invoices/RecentInvoices';
 import RecentOrders from './components/recent-orders/RecentOrders';
 import RecentShipments from './components/recent-shipments/RecentShipments';
 
-import './common/styles/index.scss';
-
 class RecentInvoicesWebComponent extends HTMLElement {
   constructor() {
     super();
