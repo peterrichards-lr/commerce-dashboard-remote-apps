@@ -22,7 +22,6 @@ const RecentShipments = (props) => {
 
   const iteraiteShipments = (shipments) => {
     return shipments.map((shipment) => {
-      console.log(shipment);
       return (
         <tr key={shipment.shipmentId}>
           <td>{shipment.orderId}</td>
