@@ -94,13 +94,11 @@ class RecentOrdersWebComponent extends HTMLElement {
 class RecentShipmentWebComponent extends HTMLElement {
   constructor() {
     super();
-    const innerDiv = document.createElement('div');
-    this.append(innerDiv);
-    this.root = createRoot(innerDiv);
+    this.root = createRoot(this);
   }
 
   render() {
-    const config = this.querySelector('config');
+    const config = this.parentElement.getElementsByTagName('config')[0];
     this.root.render(<RecentShipments configElement={config} />);
   }
 
