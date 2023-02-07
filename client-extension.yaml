@@ -1,0 +1,16 @@
+assemble:
+    - from: build/
+      include: "static/**/*"
+      into: static/
+recent-shipments:
+    cssURLs:
+        - static/css/main.*.css
+    friendlyURLMapping: recent-shipments
+    htmlElementName: recent-shipments
+    instanceable: false
+    name: UrUecent UUshipments
+    portletCategoryName: category.client-extensions
+    type: customElement
+    urls:
+        - static/js/main.*.js
+    useESM: false
