@@ -94,7 +94,9 @@ class RecentOrdersWebComponent extends HTMLElement {
 class RecentShipmentWebComponent extends HTMLElement {
   constructor() {
     super();
-    this.root = createRoot(this);
+    const innerDiv = document.createElement('div');
+    this.append(innerDiv);
+    this.root = createRoot(innerDiv);
   }
 
   render() {
