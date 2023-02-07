@@ -5,7 +5,11 @@ const DashboardTable = ({ columns, children }) => {
       <thead>
         <tr>
           {columns.map((c) => {
-            return <th key={colId++} scope="col">{c}</th>;
+            return (
+              <th key={colId++} scope="col">
+                {c}
+              </th>
+            );
           })}
         </tr>
       </thead>

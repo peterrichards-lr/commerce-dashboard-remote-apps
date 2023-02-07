@@ -7,12 +7,17 @@ import { formatTitleCase } from '../../common/utility';
 
 const RecentShipments = (props) => {
   const { configElement } = props;
-  const [shipments, setShipments] = useState([]);
   const [config, setConfig] = useState();
+  const [shipments, setShipments] = useState([]);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-      setConfig(configurationHelper(configElement));
-  }, [configElement])
+    const c = configurationHelper(configElement);
+    if (c === undefined || config) {
+      return;
+    }
+    setConfig(c);
+  }, [configElement, config]);
 
   useEffect(() => {
     (async () => {
@@ -23,19 +28,35 @@ const RecentShipments = (props) => {
       await recentShipmentsApi(channelid, accountid, maxentries)
         .then((shipments) => {
           setShipments(shipments);
+          setLoaded(true);
         })
         .catch((reason) => console.error(reason));
     })();
   }, [config]);
 
   const iteraiteShipments = (shipments) => {
+    if (shipments.length <= 0) {
+      return (
+        <tr>
+          <td colSpan={columns.length}>
+            {loaded ? (
+              <div className="alert alert-info">No shipments found</div>
+            ) : (
+              <div className="loading-icon"></div>
+            )}
+          </td>
+        </tr>
+      );
+    }
     return shipments.map((shipment) => {
       return (
         <tr key={shipment.shipmentId}>
           <td>{shipment.orderId}</td>
           <td>{shipment.sentTo}</td>
           <td>
-            <StatusLabel type={shipment.status === 'delivered' ? 'success' : 'pending'}>
+            <StatusLabel
+              type={shipment.status === 'delivered' ? 'success' : 'pending'}
+            >
               {formatTitleCase(shipment.status)}
             </StatusLabel>
           </td>
@@ -45,15 +66,12 @@ const RecentShipments = (props) => {
     });
   };
 
-  const columns = [
-    'Reference',
-    'Sent To',
-    'Status',
-    'Tracking',
-  ];
+  const columns = ['Reference', 'Sent To', 'Status', 'Tracking'];
 
   return (
-    <DashboardTable columns={columns}>{iteraiteShipments(shipments)}</DashboardTable>
+    <DashboardTable columns={columns}>
+      {iteraiteShipments(shipments)}
+    </DashboardTable>
   );
 };
 

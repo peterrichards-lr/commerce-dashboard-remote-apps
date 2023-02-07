@@ -10,6 +10,7 @@ import FormatDate from '../../common/components/FormatDate';
 const RecentOrders = (props) => {
   const languageId = Liferay.ThemeDisplay.getLanguageId();
   const [orders, setOrders] = useState([]);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -40,12 +41,26 @@ const RecentOrders = (props) => {
             isComplete: o.orderStatusInfo.lable === 'completed',
           }));
           setOrders(orders);
+          setLoaded(true);
         })
         .catch((reason) => console.error(reason));
     })();
   }, [props]);
 
   const iteraiteOrders = (orders) => {
+    if (orders.length <= 0) {
+      return (
+        <tr>
+          <td colSpan={columns.length}>
+            {loaded ? (
+              <div className="alert alert-info">No orders found</div>
+            ) : (
+              <div className="loading-icon"></div>
+            )}
+          </td>
+        </tr>
+      );
+    }
     return orders.map((order) => {
       return (
         <tr key={order.orderId}>

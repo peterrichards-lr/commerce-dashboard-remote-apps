@@ -164,7 +164,7 @@ const formatTitleCase = (str) => {
   }
   const lc = str.toLowerCase();
   return lc.charAt(0).toUpperCase() + lc.slice(1);
-}
+};
 
 export {
   customDateFieldFormat,
@@ -177,5 +177,5 @@ export {
   htmlAttributesToJson,
   buildUrlPath,
   formatAddress,
-  formatTitleCase
+  formatTitleCase,
 };

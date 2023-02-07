@@ -11,6 +11,7 @@ import RowAction from '../../common/components/RowAction';
 const RecentInvoices = (props) => {
   const languageId = Liferay.ThemeDisplay.getLanguageId();
   const [invoices, setInvoices] = useState([]);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -45,12 +46,26 @@ const RecentInvoices = (props) => {
               : false,
           }));
           setInvoices(invoices);
+          setLoaded(true);
         })
         .catch((reason) => console.error(reason));
     })();
   }, [props]);
 
   const iteraiteInvoices = (invoices) => {
+    if (invoices.length <= 0) {
+      return (
+        <tr>
+          <td colSpan={columns.length}>
+            {loaded ? (
+              <div className="alert alert-info">No invoices found</div>
+            ) : (
+              <div className="loading-icon"></div>
+            )}
+          </td>
+        </tr>
+      );
+    }
     return invoices.map((invoice) => {
       var statusType;
       switch (invoice.paymentStatus.toLowerCase()) {

@@ -15,7 +15,9 @@ const configurationHelper = (configElement, defaultConfig) => {
     }
     return config;
   }
-  console.debug('The config element was not a HTMLElement or was not named <config>. Returning the default config');
+  console.debug(
+    'The config element was not a HTMLElement or was not named <config>. Returning the default config'
+  );
   return defaultConfig;
 };
 

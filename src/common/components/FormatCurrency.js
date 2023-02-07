@@ -1,4 +1,8 @@
-const FormatCurrency = ({ languageIsoCode, currencyIsoCode = 'USD', amount }) => {
+const FormatCurrency = ({
+  languageIsoCode,
+  currencyIsoCode = 'USD',
+  amount,
+}) => {
   const formatter = new Intl.NumberFormat(languageIsoCode.replace('_', '-'), {
     style: 'currency',
     currency: currencyIsoCode,

@@ -14,7 +14,7 @@ class RecentInvoicesWebComponent extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ['accountId', 'maxentries','filterbyaccount'];
+    return ['accountId', 'maxentries', 'filterbyaccount'];
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
@@ -32,7 +32,7 @@ class RecentInvoicesWebComponent extends HTMLElement {
   }
 
   render() {
-   this.root.render(
+    this.root.render(
       <RecentInvoices
         accountId={this.getAttribute('accountId')}
         maxEntries={this.getAttribute('maxentries')}
@@ -54,7 +54,7 @@ class RecentOrdersWebComponent extends HTMLElement {
     super();
     this.root = createRoot(this);
   }
-  
+
   static get observedAttributes() {
     return ['channelId', 'accountId', 'maxentries'];
   }

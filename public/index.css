@@ -1,0 +1,270 @@
+.loading-animation,
+.loading-icon,
+.loadingmask-message .loadingmask-message-content {
+    -webkit-animation: loading-icon 1.7s ease infinite;
+    animation: loading-icon 1.7s ease infinite;
+    border-radius: 50%;
+    display: block;
+    font-size: 16px;
+    height: 1em;
+    margin: 1em auto;
+    position: relative;
+    width: 1em;
+}
+.loading-animation:after,
+.loading-animation:before,
+.loading-icon:after,
+.loading-icon:before,
+.loadingmask-message .loadingmask-message-content:after,
+.loadingmask-message .loadingmask-message-content:before {
+    border-radius: 50%;
+    content: "";
+    display: block;
+    font-size: inherit;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+@-webkit-keyframes loading-icon {
+    0% {
+        box-shadow: 0 -0.83em 0 -0.4em #884dff, 0 -0.83em 0 -0.42em #794dff, 0 -0.83em 0 -0.44em #6a4dff,
+            0 -0.83em 0 -0.46em #5b4dff, 0 -0.83em 0 -0.477em #4d4dff;
+        -webkit-transform: rotate(0);
+        transform: rotate(0);
+    }
+    2%,
+    96% {
+        box-shadow: 0 -0.83em 0 -0.4em #884dff, 0 -0.83em 0 -0.42em #794dff, 0 -0.83em 0 -0.44em #6a4dff,
+            0 -0.83em 0 -0.46em #5b4dff, 0 -0.83em 0 -0.477em #4d4dff;
+    }
+    10% {
+        box-shadow: 0 -0.83em 0 -0.4em #884dff, -0.087em -0.825em 0 -0.42em #794dff, -0.173em -0.812em 0 -0.44em #6a4dff,
+            -0.256em -0.789em 0 -0.46em #5b4dff, -0.338em -0.758em 0 -0.477em #4d4dff;
+    }
+    25% {
+        box-shadow: 0 -0.83em 0 -0.4em #884dff, -0.338em -0.758em 0 -0.42em #794dff, -0.555em -0.617em 0 -0.44em #6a4dff,
+            -0.671em -0.488em 0 -0.46em #5b4dff, -0.719em -0.415em 0 -0.477em #4d4dff;
+    }
+    40% {
+        box-shadow: 0 -0.83em 0 -0.4em #4d6aff, -0.377em -0.74em 0 -0.42em #4d79ff, -0.645em -0.522em 0 -0.44em #4d88ff,
+            -0.775em -0.297em 0 -0.46em #4d97ff, -0.82em -0.13em 0 -0.477em #4da6ff;
+    }
+    60% {
+        box-shadow: 0 -0.83em 0 -0.4em #884dff, -0.087em -0.825em 0 -0.42em #794dff, -0.173em -0.812em 0 -0.44em #6a4dff,
+            -0.256em -0.789em 0 -0.46em #5b4dff, -0.297em -0.775em 0 -0.477em #4d4dff;
+    }
+    to {
+        box-shadow: 0 -0.83em 0 -0.4em #884dff, 0 -0.83em 0 -0.42em #794dff, 0 -0.83em 0 -0.44em #6a4dff,
+            0 -0.83em 0 -0.46em #5b4dff, 0 -0.83em 0 -0.477em #4d4dff;
+        -webkit-transform: rotate(1turn);
+        transform: rotate(1turn);
+    }
+}
+@keyframes loading-icon {
+    0% {
+        box-shadow: 0 -0.83em 0 -0.4em #884dff, 0 -0.83em 0 -0.42em #794dff, 0 -0.83em 0 -0.44em #6a4dff,
+            0 -0.83em 0 -0.46em #5b4dff, 0 -0.83em 0 -0.477em #4d4dff;
+        -webkit-transform: rotate(0);
+        transform: rotate(0);
+    }
+    2%,
+    96% {
+        box-shadow: 0 -0.83em 0 -0.4em #884dff, 0 -0.83em 0 -0.42em #794dff, 0 -0.83em 0 -0.44em #6a4dff,
+            0 -0.83em 0 -0.46em #5b4dff, 0 -0.83em 0 -0.477em #4d4dff;
+    }
+    10% {
+        box-shadow: 0 -0.83em 0 -0.4em #884dff, -0.087em -0.825em 0 -0.42em #794dff, -0.173em -0.812em 0 -0.44em #6a4dff,
+            -0.256em -0.789em 0 -0.46em #5b4dff, -0.338em -0.758em 0 -0.477em #4d4dff;
+    }
+    25% {
+        box-shadow: 0 -0.83em 0 -0.4em #884dff, -0.338em -0.758em 0 -0.42em #794dff, -0.555em -0.617em 0 -0.44em #6a4dff,
+            -0.671em -0.488em 0 -0.46em #5b4dff, -0.719em -0.415em 0 -0.477em #4d4dff;
+    }
+    40% {
+        box-shadow: 0 -0.83em 0 -0.4em #4d6aff, -0.377em -0.74em 0 -0.42em #4d79ff, -0.645em -0.522em 0 -0.44em #4d88ff,
+            -0.775em -0.297em 0 -0.46em #4d97ff, -0.82em -0.13em 0 -0.477em #4da6ff;
+    }
+    60% {
+        box-shadow: 0 -0.83em 0 -0.4em #884dff, -0.087em -0.825em 0 -0.42em #794dff, -0.173em -0.812em 0 -0.44em #6a4dff,
+            -0.256em -0.789em 0 -0.46em #5b4dff, -0.297em -0.775em 0 -0.477em #4d4dff;
+    }
+    to {
+        box-shadow: 0 -0.83em 0 -0.4em #884dff, 0 -0.83em 0 -0.42em #794dff, 0 -0.83em 0 -0.44em #6a4dff,
+            0 -0.83em 0 -0.46em #5b4dff, 0 -0.83em 0 -0.477em #4d4dff;
+        -webkit-transform: rotate(1turn);
+        transform: rotate(1turn);
+    }
+}
+.linear.loading-animation,
+.linear.loading-animation:after,
+.linear.loading-animation:before,
+.loading-icon.linear,
+.loading-icon.linear:after,
+.loading-icon.linear:before {
+    border-radius: 50%;
+    box-shadow: none;
+}
+.linear.loading-animation,
+.loading-icon.linear {
+    -webkit-animation: none;
+    animation: none;
+    height: 1em;
+    margin: 0 auto;
+    position: relative;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    width: 1em;
+}
+.linear.loading-animation:after,
+.linear.loading-animation:before,
+.loading-icon.linear:after,
+.loading-icon.linear:before {
+    -webkit-animation: 2s ease-out infinite both;
+    animation: 2s ease-out infinite both;
+    border: 0.15em solid transparent;
+    border-left-color: #33f;
+    border-radius: 50%;
+    content: "";
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    -webkit-transform: rotate(270deg);
+    transform: rotate(270deg);
+    -webkit-transform-origin: 50%;
+    transform-origin: 50%;
+    width: 100%;
+}
+.linear.loading-animation:before,
+.loading-icon.linear:before {
+    -webkit-animation-name: loading-icon-linear;
+    animation-name: loading-icon-linear;
+}
+.linear.loading-animation:after,
+.loading-icon.linear:after {
+    -webkit-animation-name: loading-icon-spin;
+    animation-name: loading-icon-spin;
+}
+@-webkit-keyframes loading-icon-linear {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    10.99% {
+        border-bottom-color: transparent;
+    }
+    11% {
+        border-bottom-color: #33f;
+    }
+    66% {
+        border-bottom-color: #33f;
+    }
+    66.6% {
+        border-bottom-color: transparent;
+    }
+    66.6%,
+    to {
+        -webkit-transform: rotate(1turn);
+        transform: rotate(1turn);
+    }
+}
+@keyframes loading-icon-linear {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    10.99% {
+        border-bottom-color: transparent;
+    }
+    11% {
+        border-bottom-color: #33f;
+    }
+    66% {
+        border-bottom-color: #33f;
+    }
+    66.6% {
+        border-bottom-color: transparent;
+    }
+    66.6%,
+    to {
+        -webkit-transform: rotate(1turn);
+        transform: rotate(1turn);
+    }
+}
+@-webkit-keyframes loading-icon-spin {
+    0%,
+    22% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    to {
+        -webkit-transform: rotate(1turn);
+        transform: rotate(1turn);
+    }
+}
+@keyframes loading-icon-spin {
+    0%,
+    22% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    to {
+        -webkit-transform: rotate(1turn);
+        transform: rotate(1turn);
+    }
+}
+a.btn > .loading-animation,
+a.btn > .loading-icon,
+button > .loading-animation,
+button > .loading-icon {
+    font-size: 1em;
+    margin-right: 0.8em;
+    margin-top: 0;
+}
+a.btn > .linear.loading-animation,
+a.btn > .loading-icon.linear,
+button > .linear.loading-animation,
+button > .loading-icon.linear {
+    margin-right: 0.2em;
+    margin-top: -0.2em;
+}
+a.btn > .loading-animation,
+a.btn > .loading-icon,
+a.btn > .loading-icon.linear,
+button > .loading-animation,
+button > .loading-icon,
+button > .loading-icon.linear {
+    display: none;
+    margin-bottom: 0;
+    vertical-align: middle;
+}
+a.btn.loading > .loading-animation,
+a.btn.loading > .loading-icon,
+a.btn.loading > .loading-icon.linear,
+button.loading > .loading-animation,
+button.loading > .loading-icon,
+button.loading > .loading-icon.linear {
+    display: inline-block;
+}
+.loading-animation.loading-animation-xs,
+.loading-icon-xs.loading-animation,
+.loading-icon.loading-icon-xs {
+    font-size: 8px;
+}
+.loading-animation.loading-animation-sm,
+.loading-icon-sm.loading-animation,
+.loading-icon.loading-icon-sm {
+    font-size: 10px;
+}
+.loading-animation.loading-animation-md,
+.loading-icon-md.loading-animation,
+.loading-icon.loading-icon-md {
+    font-size: 32px;
+}
+.loading-animation.loading-animation-lg,
+.loading-icon-lg.loading-animation,
+.loading-icon.loading-icon-lg {
+    font-size: 64px;
+}
