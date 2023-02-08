@@ -1,13 +1,14 @@
-import { getFetch } from '../../common/services/liferay/api';
-import { PAGE_PARAM, PAGE_SIZE_PARAM } from '../../common/const';
-import { buildUrlPath, formatAddress } from '../../common/utility';
+import { getFetch, postFetch } from '../../common/services/liferay/api';
+import {
+  buildUrlPath,
+  formatAddress,
+  buildGraphQlQuery,
+  parseGraphQlQueryResponse,
+} from '../../common/utility';
 
-const PLACED_ORDERS_API_PATH_TEMPLATE =
-  '/o/headless-commerce-delivery-order/v1.0/channels/[channelId]/accounts/[accountId]/placed-orders';
+const GRAPHQL_PATH = '/o/graphql';
 const PLACED_ORDER_ADDRESS_API_PATH_TEMPLATE =
   '/o/headless-commerce-delivery-order/v1.0/placed-orders/[orderId]/placed-order-shipping-address';
-const PLACED_ORDER_ITEMS_API_PATH_TEMPLATE =
-  '/o/headless-commerce-delivery-order/v1.0/placed-orders/[orderId]/placed-order-items';
 const PLACED_ORDER_ITEM_SHIPMENTS =
   '/o/headless-commerce-delivery-order/v1.0/placed-order-items/[orderItemId]/placed-order-item-shipments';
 
@@ -24,19 +25,24 @@ const recentShipmentsApi = async (channelId, accountId, maxEntries) => {
 
   console.debug(`Using maxEntries=${maxEntries}`);
 
-  const placedOrdersApiPath = buildUrlPath(PLACED_ORDERS_API_PATH_TEMPLATE, {
-    channelId,
-    accountId,
-  });
+  const placedOrdersGraphQLQuery = buildGraphQlQuery(
+    'channelAccountPlacedOrders',
+    'items { id }',
+    {
+      accountId,
+      channelId,
+      page: 1,
+      pageSize: maxEntries,
+    }
+  );
 
-  const searchParams = new URLSearchParams();
-  searchParams.append(PAGE_PARAM, 1);
-  searchParams.append(PAGE_SIZE_PARAM, maxEntries);
-
-  const orders = await getFetch(placedOrdersApiPath, searchParams).then(
+  const orders = await postFetch(GRAPHQL_PATH, placedOrdersGraphQLQuery).then(
     (placedOrdersRespone) => {
-      const { items, totalCount } = placedOrdersRespone;
-      console.debug(`Found ${totalCount} placed orders(s)`);
+      const { items } = parseGraphQlQueryResponse(
+        'channelAccountPlacedOrders',
+        placedOrdersRespone
+      );
+      console.debug(`Found ${items.length} placed orders(s)`);
       return items;
     }
   );
@@ -57,17 +63,22 @@ const recentShipmentsApi = async (channelId, accountId, maxEntries) => {
 
     const shipmentsArray = await Promise.all(
       orderIds.map(async (orderId) => {
-        const placeOrderItemsApiPath = buildUrlPath(
-          PLACED_ORDER_ITEMS_API_PATH_TEMPLATE,
+        const orderItemsGraphQlQuery = buildGraphQlQuery(
+          'placedOrderPlacedOrderItems',
+          'items { id }',
           {
-            orderId,
+            placedOrderId: orderId
           }
         );
 
-        const placedOrderItemsResponse = await getFetch(placeOrderItemsApiPath);
-        const { items, totalCount } = placedOrderItemsResponse;
+        const placedOrderItemsResponse = await postFetch(GRAPHQL_PATH, orderItemsGraphQlQuery);
+        const { items } = parseGraphQlQueryResponse(
+          'placedOrderPlacedOrderItems',
+          placedOrderItemsResponse
+        );
+
         console.debug(
-          `Found ${totalCount} placed orders(s) for order ${orderId}`
+          `Found ${items.length} placed order item(s) for order ${orderId}`
         );
         if (items && Array.isArray(items) && items.length > 0) {
           const orderItemIds = items.map((oi) => oi.id);

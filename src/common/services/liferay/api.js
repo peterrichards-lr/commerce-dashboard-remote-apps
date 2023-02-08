@@ -67,9 +67,9 @@ const getFetch = async (
 
 const postFetch = async (
   path,
+  body,
   searchParams = undefined,
   contentType = HEADER_CONTENT_TYPE_JSON,
-  body,
   options = {}
 ) => {
   return baseFetch(path, searchParams, contentType, {
@@ -81,9 +81,9 @@ const postFetch = async (
 
 const putFetch = async (
   path,
+  body,
   searchParams = undefined,
   contentType = HEADER_CONTENT_TYPE_JSON,
-  body,
   options = {}
 ) => {
   return baseFetch(path, searchParams, contentType, {
@@ -107,9 +107,9 @@ const deleteFetch = async (
 
 const patchFetch = async (
   path,
+  body,
   searchParams = undefined,
   contentType = HEADER_CONTENT_TYPE_JSON,
-  body,
   options = {}
 ) => {
   return baseFetch(path, searchParams, contentType, {
