@@ -38,7 +38,7 @@ const RecentOrders = (props) => {
             accountName: o.account,
             status: o.orderStatusInfo.label_i18n,
             finalPrice: o.summary.total,
-            isComplete: o.orderStatusInfo.lable === 'completed',
+            isComplete: o.orderStatusInfo.label === 'completed',
           }));
           setOrders(orders);
           setLoaded(true);

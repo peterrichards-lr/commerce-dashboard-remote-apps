@@ -1,10 +1,8 @@
 import { Liferay } from './liferay';
 import { encode as base64_encode } from 'base-64';
 
-const {
-  REACT_APP_LIFERAY_HOST = window.location.origin,
-  REACT_APP_LIFERAY_BASIC_AUTH,
-} = process.env;
+const LIFERAY_HOST = process.env.REACT_APP_LIFERAY_HOST || window.location.origin;
+const LIFERAY_BASIC_AUTH = process.env.REACT_APP_LIFERAY_BASIC_AUTH;
 
 const HEADER_AUTHORIZATION = 'Authorization';
 const HEADER_AUTHORIZATION_BASIC = 'Basic';
@@ -16,9 +14,9 @@ const baseFetch = async (path, searchParams, contentType, options = {}) => {
   var url;
   if (searchParams !== undefined && searchParams instanceof URLSearchParams) {
     const queryString = searchParams.toString();
-    url = new URL(`${path}?${queryString}`, REACT_APP_LIFERAY_HOST);
+    url = new URL(`${path}?${queryString}`, LIFERAY_HOST);
   } else {
-    url = new URL(path, REACT_APP_LIFERAY_HOST);
+    url = new URL(path, LIFERAY_HOST);
   }
 
   var headers = {
@@ -26,8 +24,8 @@ const baseFetch = async (path, searchParams, contentType, options = {}) => {
   };
   if (Liferay.authToken !== undefined) {
     headers[HEADER_AUTH_TOKEN] = Liferay.authToken;
-  } else if (REACT_APP_LIFERAY_BASIC_AUTH !== undefined) {
-    const credentials = base64_encode(REACT_APP_LIFERAY_BASIC_AUTH);
+  } else if (LIFERAY_BASIC_AUTH !== undefined) {
+    const credentials = base64_encode(LIFERAY_BASIC_AUTH);
     headers[
       HEADER_AUTHORIZATION
     ] = `${HEADER_AUTHORIZATION_BASIC} ${credentials}`;
