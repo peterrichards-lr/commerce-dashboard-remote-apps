@@ -1,5 +1,6 @@
 import configurationHelper from '../../common/services/configurationHelper';
 import { useEffect, useState } from 'react';
+import { Liferay } from '../../common/services/liferay/liferay';
 import recentShipmentsApi from './RecentShipmentsApi';
 import DashboardTable from '../../common/components/DashboardTable';
 import StatusLabel from '../../common/components/StatusLabel';
@@ -24,8 +25,10 @@ const RecentShipments = (props) => {
       if (!config) {
         return;
       }
-      const { accountid, channelid, maxentries } = config;
-      await recentShipmentsApi(channelid, accountid, maxentries)
+      const { maxentries } = config;
+      const accountId = Liferay?.CommerceContext?.account?.accountId || 0;
+      const channelId = Liferay?.CommerceContext?.commerceChannelId || 0;
+      await recentShipmentsApi(channelId, accountId, maxentries)
         .then((shipments) => {
           setShipments(shipments);
           setLoaded(true);

@@ -12,13 +12,12 @@ class RecentInvoicesWebComponent extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ['accountId', 'maxentries', 'filterbyaccount'];
+    return ['maxentries', 'filterbyaccount'];
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
     console.debug(`The attribute ${name} was updated.`);
     switch (name) {
-      case 'accountId':
       case 'maxentries':
       case 'filterbyaccount':
         if (!newValue || newValue === oldValue) return;
@@ -32,8 +31,6 @@ class RecentInvoicesWebComponent extends HTMLElement {
   render() {
     this.root.render(
       <RecentInvoices
-        accountId={this.getAttribute('accountId')}
-        maxEntries={this.getAttribute('maxentries')}
         filterByAccount={this.getAttribute('filterbyaccount')}
       />
     );
@@ -54,14 +51,12 @@ class RecentOrdersWebComponent extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ['channelId', 'accountId', 'maxentries'];
+    return ['maxentries'];
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
     console.debug(`The attribute ${name} was updated.`);
     switch (name) {
-      case 'channelId':
-      case 'accountId':
       case 'maxentries':
         if (!newValue || newValue === oldValue) return;
         this.render();
@@ -74,8 +69,6 @@ class RecentOrdersWebComponent extends HTMLElement {
   render() {
     this.root.render(
       <RecentOrders
-        channelId={this.getAttribute('channelId')}
-        accountId={this.getAttribute('accountId')}
         maxEntries={this.getAttribute('maxentries')}
       />
     );

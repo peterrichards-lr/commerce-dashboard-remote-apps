@@ -14,7 +14,9 @@ const RecentOrders = (props) => {
 
   useEffect(() => {
     (async () => {
-      const { accountId, channelId, maxEntries } = propsStrToObj(props);
+      const { maxEntries } = propsStrToObj(props);
+      const accountId = Liferay?.CommerceContext?.account?.accountId || 0;
+      const channelId = Liferay?.CommerceContext?.commerceChannelId || 0;
       await recentOrdersApi(channelId, accountId, maxEntries)
         .then((response) => {
           const { items, pageSize, totalCount } = response;

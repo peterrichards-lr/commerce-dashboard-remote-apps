@@ -15,7 +15,8 @@ const RecentInvoices = (props) => {
 
   useEffect(() => {
     (async () => {
-      const { accountId, maxEntries, filterByAccount } = propsStrToObj(props);
+      const { maxEntries, filterByAccount } = propsStrToObj(props);
+      const accountId = Liferay?.CommerceContext?.account?.accountId || 0;
       await recentInvoicesApi(accountId, maxEntries, filterByAccount)
         .then((response) => {
           const { items, pageSize, totalCount } = response;
