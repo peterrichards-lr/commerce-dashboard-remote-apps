@@ -15,22 +15,22 @@ const RecentInvoices = (props) => {
 
   useEffect(() => {
     (async () => {
-      const { maxEntries, filterByAccount } = propsStrToObj(props);
+      const { maxEntries, filterByAccount, logging } = propsStrToObj(props);
       const accountId = Liferay?.CommerceContext?.account?.accountId || 0;
-      await recentInvoicesApi(accountId, maxEntries, filterByAccount)
+      await recentInvoicesApi(accountId, maxEntries, filterByAccount, logging)
         .then((response) => {
           const { items, pageSize, totalCount } = response;
           if (items === undefined || !(items instanceof Array)) {
-            console.warn('Items is not an array');
+            if (logging) console.warn('Items is not an array');
             return;
           }
           if (pageSize < totalCount) {
-            console.warn(
+            if (logging) console.warn(
               `The returned set of items is not the full set: returned ${pageSize}, set size ${totalCount}`
             );
           }
           if (items.length !== pageSize) {
-            console.debug(
+            if (logging) console.debug(
               `There are fewer items than requested: requested: returned ${items.length}, requested ${pageSize}`
             );
           }

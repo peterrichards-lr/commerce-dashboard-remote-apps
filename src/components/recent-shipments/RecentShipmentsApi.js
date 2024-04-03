@@ -12,10 +12,10 @@ const PLACED_ORDER_ADDRESS_API_PATH_TEMPLATE =
 const PLACED_ORDER_ITEM_SHIPMENTS =
   '/o/headless-commerce-delivery-order/v1.0/placed-order-items/[orderItemId]/placed-order-item-shipments';
 
-const recentShipmentsApi = async (channelId, accountId, maxEntries) => {
-  console.debug(`Param channelId=${channelId}`);
-  console.debug(`Param accountId=${accountId}`);
-  console.debug(`Param maxEntries=${maxEntries}`);
+const recentShipmentsApi = async (channelId, accountId, maxEntries, logging) => {
+  if (logging) console.debug(`Param channelId=${channelId}`);
+  if (logging) console.debug(`Param accountId=${accountId}`);
+  if (logging) console.debug(`Param maxEntries=${maxEntries}`);
 
   if (channelId <= 0 || accountId <= 0) {
     throw new Error('Parameters were invalid');
@@ -23,7 +23,7 @@ const recentShipmentsApi = async (channelId, accountId, maxEntries) => {
 
   maxEntries = maxEntries && typeof maxEntries === 'number' ? maxEntries : 7;
 
-  console.debug(`Using maxEntries=${maxEntries}`);
+  if (logging) console.debug(`Using maxEntries=${maxEntries}`);
 
   const placedOrdersGraphQLQuery = buildGraphQlQuery(
     'channelAccountPlacedOrders',
@@ -42,7 +42,7 @@ const recentShipmentsApi = async (channelId, accountId, maxEntries) => {
         'channelAccountPlacedOrders',
         placedOrdersRespone
       );
-      console.debug(`Found ${items.length} placed orders(s)`);
+      if (logging) console.debug(`Found ${items.length} placed orders(s)`);
       return items;
     }
   );
@@ -77,7 +77,7 @@ const recentShipmentsApi = async (channelId, accountId, maxEntries) => {
           placedOrderItemsResponse
         );
 
-        console.debug(
+        if (logging) console.debug(
           `Found ${items.length} placed order item(s) for order ${orderId}`
         );
         if (items && Array.isArray(items) && items.length > 0) {
@@ -97,7 +97,7 @@ const recentShipmentsApi = async (channelId, accountId, maxEntries) => {
             .map((shipmentResponse) => shipmentResponse.items)
             .flat(1);
           const shipmentCount = shipments.length;
-          console.debug(`Found ${shipmentCount} shipment(s)`);
+          if (logging) console.debug(`Found ${shipmentCount} shipment(s)`);
           return shipments.map((shipment) => ({
             id: shipment.id,
             trackingNumber: shipment.trackingNumber,
@@ -116,7 +116,7 @@ const recentShipmentsApi = async (channelId, accountId, maxEntries) => {
         sentTo: address,
         status: 'delivered',
       };
-      console.debug(`Returning ${shipments.length} shipments for ${orderId}`);
+      if (logging) console.debug(`Returning ${shipments.length} shipments for ${orderId}`);
       return shipments.map((shipment) => ({
         ...shipmentInfoBase,
         shipmentId: shipment.id,

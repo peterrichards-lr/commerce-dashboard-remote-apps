@@ -18,6 +18,7 @@ class RecentInvoicesWebComponent extends HTMLElement {
   attributeChangedCallback(name, oldValue, newValue) {
     console.debug(`The attribute ${name} was updated.`);
     switch (name) {
+      case 'logging':
       case 'maxentries':
       case 'filterbyaccount':
         if (!newValue || newValue === oldValue) return;
@@ -31,6 +32,8 @@ class RecentInvoicesWebComponent extends HTMLElement {
   render() {
     this.root.render(
       <RecentInvoices
+      logging={this.getAttribute('logging')}
+        maxEntries={this.getAttribute('maxentries')}
         filterByAccount={this.getAttribute('filterbyaccount')}
       />
     );
@@ -57,6 +60,7 @@ class RecentOrdersWebComponent extends HTMLElement {
   attributeChangedCallback(name, oldValue, newValue) {
     console.debug(`The attribute ${name} was updated.`);
     switch (name) {
+      case 'logging':
       case 'maxentries':
         if (!newValue || newValue === oldValue) return;
         this.render();
@@ -69,6 +73,7 @@ class RecentOrdersWebComponent extends HTMLElement {
   render() {
     this.root.render(
       <RecentOrders
+      logging={this.getAttribute('logging')}
         maxEntries={this.getAttribute('maxentries')}
       />
     );

@@ -5,10 +5,10 @@ const INVOICES_API_PATH = '/o/c/invoices/';
 const ACCOUNT_ID_FIELD = 'r_invoice_accountEntryId';
 const INVOICE_ID_FIELD = 'id';
 
-const recentInvoicesApi = (accountId, maxEntries, filterByAccount) => {
-  console.debug(`Param accountId=${accountId}`);
-  console.debug(`Param maxEntries=${maxEntries}`);
-  console.debug(`Param filterByAccount=${filterByAccount}`);
+const recentInvoicesApi = (accountId, maxEntries, filterByAccount, logging) => {
+  if (logging) console.debug(`Param accountId=${accountId}`);
+  if (logging) console.debug(`Param maxEntries=${maxEntries}`);
+  if (logging) console.debug(`Param filterByAccount=${filterByAccount}`);
 
   const actualMaxEntries =
     maxEntries && typeof maxEntries === 'number' ? maxEntries : 7;
@@ -19,9 +19,9 @@ const recentInvoicesApi = (accountId, maxEntries, filterByAccount) => {
     throw new Error('The account identifier is invalid');
   }
 
-  console.debug(`Using accountId=${accountId}`);
-  console.debug(`Using maxEntries=${actualMaxEntries}`);
-  console.debug(`Using filterByAccount=${filterByAccount}`);
+  if (logging) console.debug(`Using accountId=${accountId}`);
+  if (logging) console.debug(`Using maxEntries=${actualMaxEntries}`);
+  if (logging) console.debug(`Using filterByAccount=${filterByAccount}`);
 
   const filter = filterByAccount
     ? `${ACCOUNT_ID_FIELD} eq '${accountId}'`

@@ -25,10 +25,10 @@ const RecentShipments = (props) => {
       if (!config) {
         return;
       }
-      const { maxentries } = config;
+      const { maxentries, logging } = config;
       const accountId = Liferay?.CommerceContext?.account?.accountId || 0;
       const channelId = Liferay?.CommerceContext?.commerceChannelId || 0;
-      await recentShipmentsApi(channelId, accountId, maxentries)
+      await recentShipmentsApi(channelId, accountId, maxentries, logging)
         .then((shipments) => {
           setShipments(shipments);
           setLoaded(true);
