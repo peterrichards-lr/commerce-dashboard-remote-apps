@@ -1,3 +1,4 @@
+import { useInsertionEffect } from 'react';
 import { getFetch, postFetch } from '../../common/services/liferay/api';
 import {
   buildUrlPath,
@@ -63,7 +64,7 @@ const recentShipmentsApi = async (
       const orderIds = orders.map((o) => o.id);
       var shippingAddresses;
       try {
-        shippingAddresses = await Promise.all(
+        shippingAddresses = await Promise.allSettled(
           orderIds.map((orderId) => {
             const placedOrderAddressApiPath = buildUrlPath(
               PLACED_ORDER_ADDRESS_API_PATH_TEMPLATE,
@@ -82,7 +83,7 @@ const recentShipmentsApi = async (
       if (orderIds && Array.isArray(orderIds) && orderIds.length > 0) {
         var shipmentsArray;
         try {
-          shipmentsArray = await Promise.all(
+          shipmentsArray = await Promise.allSettled(
             orderIds.map(async (orderId) => {
               const orderItemsGraphQlQuery = buildGraphQlQuery(
                 'placedOrderPlacedOrderItems',
@@ -138,35 +139,64 @@ const recentShipmentsApi = async (
         }
       }
 
+      if (logging) console.debug('All shippingAddresses', shippingAddresses);
+      if (logging) console.debug('All shipmentsArray', shipmentsArray);
+
       const orderShipments = orderIds.map((orderId, i) => {
         const shippingAddress =
           shippingAddresses &&
           Array.isArray(shippingAddresses) &&
           shippingAddresses.length >= i &&
-          shippingAddresses[i];
+          shippingAddresses[i] &&
+          shippingAddresses[i].value &&
+          shippingAddresses[i].value.id
+            ? shippingAddresses[i].value
+            : undefined;
+
+        if (logging)
+          console.debug(`shippingAddress for ${orderId}`, shippingAddress);
+
         const address = formatAddress(shippingAddress);
-        const shipments =
+
+        const shipment =
           shipmentsArray &&
           Array.isArray(shipmentsArray) &&
           shipmentsArray.length >= i &&
-          shipmentsArray[i];
+          shipmentsArray[i] &&
+          shipmentsArray[i].value &&
+          Array.isArray(shipmentsArray[i].value) &&
+          shipmentsArray[i].value.length > 0
+            ? shipmentsArray[i].value[0]
+            : undefined;
+
+        if (logging) console.debug(`shipment for ${orderId}`, shipment);
+
         var shipmentInfoBase = {
           orderId,
           sentTo: address,
           status: 'delivered',
         };
-        if (logging)
-          console.debug(
-            `Returning ${shipments.length} shipments for ${orderId}`
-          );
-        return shipments.map((shipment) => ({
-          ...shipmentInfoBase,
-          shipmentId: shipment?.id,
-          trackingNumber: shipment?.trackingNumber,
-        }));
+
+        var orderObj;
+        if (shipment) {
+          orderObj = {
+            ...shipmentInfoBase,
+            shipmentId: shipment?.id,
+            trackingNumber: shipment?.trackingNumber,
+          };
+        }
+        if (logging) console.debug('orderObj', orderObj);
+        return orderObj;
       });
 
-      return orderShipments ? orderShipments.flat(1).slice(0, maxEntries) : [];
+      const rtnVal = orderShipments
+        ? orderShipments
+            .filter((e) => e !== undefined)
+            .flat(1)
+            .slice(0, maxEntries)
+        : [];
+      if (logging) console.debug('orderShipments', rtnVal);
+      return rtnVal;
     }
   } catch (e) {
     if (logging) console.log(`Critical failure: ${e.message}`);

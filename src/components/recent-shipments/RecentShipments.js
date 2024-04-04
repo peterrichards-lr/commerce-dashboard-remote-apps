@@ -53,17 +53,17 @@ const RecentShipments = (props) => {
     }
     return shipments.map((shipment) => {
       return (
-        <tr key={shipment.shipmentId}>
-          <td>{shipment.orderId}</td>
-          <td>{shipment.sentTo}</td>
+        <tr key={shipment?.shipmentId}>
+          <td>{shipment?.orderId}</td>
+          <td>{shipment?.sentTo}</td>
           <td>
             <StatusLabel
-              type={shipment.status === 'delivered' ? 'success' : 'pending'}
+              type={shipment?.status === 'delivered' ? 'success' : 'pending'}
             >
-              {formatTitleCase(shipment.status)}
+              {formatTitleCase(shipment?.status)}
             </StatusLabel>
           </td>
-          <td>{shipment.trackingNumber}</td>
+          <td>{shipment?.trackingNumber}</td>
         </tr>
       );
     });
