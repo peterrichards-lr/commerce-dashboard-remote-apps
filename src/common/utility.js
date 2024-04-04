@@ -137,6 +137,10 @@ const appendLine = (
 const formatAddress = (addressObj) => {
   var address = '';
 
+  if (!addressObj) {
+    return address;
+  }
+  
   if (addressObj.hasOwnProperty('street1'))
     address = appendLine(address, addressObj.street1, false);
 
