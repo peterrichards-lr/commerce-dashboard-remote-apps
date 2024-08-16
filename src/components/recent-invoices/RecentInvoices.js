@@ -7,17 +7,22 @@ import FormatCurrency from '../../common/components/FormatCurrency';
 import StatusLabel from '../../common/components/StatusLabel';
 import FormatDate from '../../common/components/FormatDate';
 import RowAction from '../../common/components/RowAction';
+import MessageDisplayContext from '../../common/MessageDisplayContext';
 
 const RecentInvoices = (props) => {
   const languageId = Liferay.ThemeDisplay.getLanguageId();
   const [invoices, setInvoices] = useState([]);
   const [loaded, setLoaded] = useState(false);
+  const [errored, setErrored] = useState(false);
+  const [messageDisplayContext, setMessageDisplayContext] = useState(
+    new MessageDisplayContext()
+  );
 
   useEffect(() => {
     (async () => {
       const { maxEntries, filterByAccount, logging } = propsStrToObj(props);
       const accountId = Liferay?.CommerceContext?.account?.accountId || 0;
-      await recentInvoicesApi(accountId, maxEntries, filterByAccount, logging)
+      recentInvoicesApi(accountId, maxEntries, filterByAccount, logging)
         .then((response) => {
           const { items, pageSize, totalCount } = response;
           if (items === undefined || !(items instanceof Array)) {
@@ -25,14 +30,16 @@ const RecentInvoices = (props) => {
             return;
           }
           if (pageSize < totalCount) {
-            if (logging) console.warn(
-              `The returned set of items is not the full set: returned ${pageSize}, set size ${totalCount}`
-            );
+            if (logging)
+              console.warn(
+                `The returned set of items is not the full set: returned ${pageSize}, set size ${totalCount}`
+              );
           }
           if (items.length !== pageSize) {
-            if (logging) console.debug(
-              `There are fewer items than requested: requested: returned ${items.length}, requested ${pageSize}`
-            );
+            if (logging)
+              console.debug(
+                `There are fewer items than requested: requested: returned ${items.length}, requested ${pageSize}`
+              );
           }
           const invoices = items.map((i) => ({
             invoiceId: i.id,
@@ -49,21 +56,43 @@ const RecentInvoices = (props) => {
           setInvoices(invoices);
           setLoaded(true);
         })
-        .catch((reason) => console.error(reason));
+        .catch((reason) => {
+          if (reason?.name === 'MissingCommerceContextError') {
+            setMessageDisplayContext(
+              new MessageDisplayContext('alert-info', 'No account selected')
+            );
+          } else {
+            console.error(reason);
+            setMessageDisplayContext(
+              new MessageDisplayContext(
+                'alert-danger',
+                'An error has occurred. Refer to the Console for more information.'
+              )
+            );
+          }
+          setErrored(true);
+        });
     })();
   }, [props]);
+
+  const infomationElement = () => {
+    if (errored) {
+      return (
+        <div className={'alert ' + messageDisplayContext.cssClass}>
+          {messageDisplayContext.message}
+        </div>
+      );
+    } else if (loaded) {
+      return <div className="alert alert-info">No invoices found</div>;
+    }
+    return <div className="loading-animation loading-animation-md"></div>;
+  };
 
   const iteraiteInvoices = (invoices) => {
     if (invoices.length <= 0) {
       return (
         <tr>
-          <td colSpan={columns.length}>
-            {loaded ? (
-              <div className="alert alert-info">No invoices found</div>
-            ) : (
-              <div className="loading-animation loading-animation-md"></div>
-            )}
-          </td>
+          <td colSpan={columns.length}>{infomationElement()}</td>
         </tr>
       );
     }

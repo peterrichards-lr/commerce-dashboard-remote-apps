@@ -5,12 +5,17 @@ import recentShipmentsApi from './RecentShipmentsApi';
 import DashboardTable from '../../common/components/DashboardTable';
 import StatusLabel from '../../common/components/StatusLabel';
 import { formatTitleCase } from '../../common/utility';
+import MessageDisplayContext from '../../common/MessageDisplayContext';
 
 const RecentShipments = (props) => {
   const { configElement } = props;
   const [config, setConfig] = useState();
   const [shipments, setShipments] = useState([]);
   const [loaded, setLoaded] = useState(false);
+  const [errored, setErrored] = useState(false);
+  const [messageDisplayContext, setMessageDisplayContext] = useState(
+    new MessageDisplayContext()
+  );
 
   useEffect(() => {
     const c = configurationHelper(configElement);
@@ -28,26 +33,48 @@ const RecentShipments = (props) => {
       const { maxentries, logging } = config;
       const accountId = Liferay?.CommerceContext?.account?.accountId || 0;
       const channelId = Liferay?.CommerceContext?.commerceChannelId || 0;
-      await recentShipmentsApi(channelId, accountId, maxentries, logging)
+      recentShipmentsApi(channelId, accountId, maxentries, logging)
         .then((shipments) => {
           setShipments(shipments);
           setLoaded(true);
         })
-        .catch((reason) => console.error(reason));
+        .catch((reason) => {
+          if (reason?.name === 'MissingCommerceContextError') {
+            setMessageDisplayContext(
+              new MessageDisplayContext('alert-info', 'No account selected')
+            );
+          } else {
+            console.error(reason);
+            setMessageDisplayContext(
+              new MessageDisplayContext(
+                'alert-danger',
+                'An error has occurred. Refer to the Console for more information.'
+              )
+            );
+          }
+          setErrored(true);
+        });
     })();
   }, [config]);
 
+  const infomationElement = () => {
+    if (errored) {
+      return (
+        <div className={'alert ' + messageDisplayContext.cssClass}>
+          {messageDisplayContext.message}
+        </div>
+      );
+    } else if (loaded) {
+      return <div className="alert alert-info">No shipments found</div>;
+    }
+    return <div className="loading-animation loading-animation-md"></div>;
+  };
+
   const iteraiteShipments = (shipments) => {
-    if (shipments.length <= 0) {
+    if (shipments.length <= 0 || errored) {
       return (
         <tr>
-          <td colSpan={columns.length}>
-            {loaded ? (
-              <div className="alert alert-info">No shipments found</div>
-            ) : (
-              <div className="loading-animation loading-animation-md"></div>
-            )}
-          </td>
+          <td colSpan={columns.length}>{infomationElement()}</td>
         </tr>
       );
     }

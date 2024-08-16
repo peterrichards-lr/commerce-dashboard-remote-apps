@@ -6,18 +6,23 @@ import DashboardTable from '../../common/components/DashboardTable';
 import StatusLabel from '../../common/components/StatusLabel';
 import FormatCurrency from '../../common/components/FormatCurrency';
 import FormatDate from '../../common/components/FormatDate';
+import MessageDisplayContext from '../../common/MessageDisplayContext';
 
 const RecentOrders = (props) => {
   const languageId = Liferay.ThemeDisplay.getLanguageId();
   const [orders, setOrders] = useState([]);
   const [loaded, setLoaded] = useState(false);
+  const [errored, setErrored] = useState(false);
+  const [messageDisplayContext, setMessageDisplayContext] = useState(
+    new MessageDisplayContext()
+  );
 
   useEffect(() => {
     (async () => {
       const { maxEntries, logging } = propsStrToObj(props);
       const accountId = Liferay?.CommerceContext?.account?.accountId || 0;
       const channelId = Liferay?.CommerceContext?.commerceChannelId || 0;
-      await recentOrdersApi(channelId, accountId, maxEntries, logging)
+      recentOrdersApi(channelId, accountId, maxEntries, logging)
         .then((response) => {
           const { items, pageSize, totalCount } = response;
           if (items === undefined || !(items instanceof Array)) {
@@ -25,14 +30,16 @@ const RecentOrders = (props) => {
             return;
           }
           if (pageSize < totalCount) {
-            if (logging) console.warn(
-              `The returned set of items is not the full set: returned ${pageSize}, set size ${totalCount}`
-            );
+            if (logging)
+              console.warn(
+                `The returned set of items is not the full set: returned ${pageSize}, set size ${totalCount}`
+              );
           }
           if (items.length !== pageSize) {
-            if (logging) console.debug(
-              `There are fewer items than requested: requested: returned ${items.length}, requested ${pageSize}`
-            );
+            if (logging)
+              console.debug(
+                `There are fewer items than requested: requested: returned ${items.length}, requested ${pageSize}`
+              );
           }
           const orders = items.map((o) => ({
             orderId: o.id,
@@ -45,21 +52,43 @@ const RecentOrders = (props) => {
           setOrders(orders);
           setLoaded(true);
         })
-        .catch((reason) => console.error(reason));
+        .catch((reason) => {
+          if (reason?.name === 'MissingCommerceContextError') {
+            setMessageDisplayContext(
+              new MessageDisplayContext('alert-info', 'No account selected')
+            );
+          } else {
+            console.error(reason);
+            setMessageDisplayContext(
+              new MessageDisplayContext(
+                'alert-danger',
+                'An error has occurred. Refer to the Console for more information.'
+              )
+            );
+          }
+          setErrored(true);
+        });
     })();
   }, [props]);
+
+  const infomationElement = () => {
+    if (errored) {
+      return (
+        <div className={'alert ' + messageDisplayContext.cssClass}>
+          {messageDisplayContext.message}
+        </div>
+      );
+    } else if (loaded) {
+      return <div className="alert alert-info">No orders found</div>;
+    }
+    return <div className="loading-animation loading-animation-md"></div>;
+  };
 
   const iteraiteOrders = (orders) => {
     if (orders.length <= 0) {
       return (
         <tr>
-          <td colSpan={columns.length}>
-            {loaded ? (
-              <div className="alert alert-info">No orders found</div>
-            ) : (
-              <div className="loading-animation loading-animation-md"></div>
-            )}
-          </td>
+          <td colSpan={columns.length}>{infomationElement()}</td>
         </tr>
       );
     }

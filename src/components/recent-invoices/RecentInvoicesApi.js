@@ -1,11 +1,12 @@
 import { buildObjectAPISearchParams, buildSort } from '../../common/utility';
 import { getFetch } from '../../common/services/liferay/api';
+import MissingCommerceContextError from '../../common/MissingCommerceContextError';
 
 const INVOICES_API_PATH = '/o/c/invoices/';
 const ACCOUNT_ID_FIELD = 'r_invoice_accountEntryId';
 const INVOICE_ID_FIELD = 'id';
 
-const recentInvoicesApi = (accountId, maxEntries, filterByAccount, logging) => {
+const recentInvoicesApi = async (accountId, maxEntries, filterByAccount, logging) => {
   if (logging) console.debug(`Param accountId=${accountId}`);
   if (logging) console.debug(`Param maxEntries=${maxEntries}`);
   if (logging) console.debug(`Param filterByAccount=${filterByAccount}`);
@@ -16,7 +17,7 @@ const recentInvoicesApi = (accountId, maxEntries, filterByAccount, logging) => {
     typeof filterByAccount === 'undefined' ? false : filterByAccount;
 
   if (filterByAccount && accountId <= 0) {
-    throw new Error('The account identifier is invalid');
+    throw new MissingCommerceContextError('The account identifier is invalid');
   }
 
   if (logging) console.debug(`Using accountId=${accountId}`);
